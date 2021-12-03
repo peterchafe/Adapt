@@ -9,11 +9,7 @@ namespace AdaptLib.Models
         private const string Seconds = "\"";
 
         protected double Data;
-        protected string m_Axis; 
-
-        public virtual double Minimum { get; set; }
-
-        public virtual double Maximum { get; set; }
+        protected string m_Axis;
 
         public string Degrees()
         {
@@ -35,5 +31,7 @@ namespace AdaptLib.Models
             var seconds = (temp - minutes) * 60;
             return $"{degrees}{Degree}{minutes:00}{Minutes}{seconds:00.#########}{Seconds}{m_Axis}";
         }
+
+        
     }
 }

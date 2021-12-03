@@ -4,6 +4,9 @@ namespace AdaptLib.Models
 {
     public class Latitude : PositionBase
     {
+        public static double Minimum = -90D;
+        private const double Maximum = 90D;
+
         public Latitude()
             : this(0D)
         {
@@ -11,15 +14,34 @@ namespace AdaptLib.Models
 
         public Latitude(double value)
         {
-            base.Minimum = -90D;
-            base.Maximum = 90D;
             m_Axis = value < 0 ? "S" : "N";
             Data = Math.Abs(value);
         }
 
-        public override double Minimum => base.Minimum;
-
-        public override double Maximum => base.Maximum;
         public string Axis => m_Axis;
+
+        public static bool TryParse(string value, out Latitude latitude)
+        {
+            latitude = new Latitude();
+
+            if (double.TryParse(value, out double result))
+            {
+                if (!IsValid(result))
+                {
+                    latitude = new Latitude(0D);
+                    return false;
+                }
+
+                latitude = new Latitude(result);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsValid(double value)
+        {
+             return value >= Minimum && value <= Maximum;
+        }
     }
 }
